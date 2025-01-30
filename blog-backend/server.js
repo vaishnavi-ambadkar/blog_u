@@ -128,7 +128,11 @@ const app = express();
 const port = 5000;
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: [""], // Your frontend's Vercel URL
+  methods: ["POST", "GET"],
+  credentials: true
+}));
 app.use(express.json());
 app.use(fileUpload({ useTempFiles: true, tempFileDir: '/tmp/' }));
 
@@ -172,6 +176,9 @@ app.delete('/api/posts/:id', async (req, res) => {
     console.error('Error deleting post:', err);
     res.status(500).json({ message: 'Error deleting post', error: err });
   }
+});
+app.get("/", (req, res) => {
+  res.json("Hello");
 });
 
 app.listen(port, () => {
